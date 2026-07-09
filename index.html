@@ -27,9 +27,6 @@
     <div class="scoreboard-controls">
       <label class="visually-hidden" for="lang-select">Language</label>
       <select id="lang-select" class="lang-select" aria-label="Choose language"></select>
-      <button id="settings-btn" class="btn btn-ghost" aria-haspopup="dialog" aria-controls="settings-dialog">
-        <span aria-hidden="true">⚙</span> <span id="settings-label">Settings</span>
-      </button>
     </div>
   </div>
 
@@ -58,11 +55,6 @@
     <h1>Stadium Companion</h1>
     <p class="lede">One AI-powered assistant covering navigation, crowd safety, accessibility, transport, and sustainability for every FIFA World Cup 2026 venue.</p>
     <div class="card-grid" id="home-stadium-card"></div>
-    <div class="banner-noapi" id="no-key-banner" hidden>
-      <p><strong id="no-key-title">Add an API key to enable AI answers</strong></p>
-      <p id="no-key-body">Static data works without a key. Add your own free API key in Settings to unlock AI answers.</p>
-      <button class="btn btn-primary" id="no-key-cta">Open Settings</button>
-    </div>
   </section>
 
   <section id="panel-navigate" role="tabpanel" aria-labelledby="tab-navigate" tabindex="0" class="panel" hidden>
@@ -156,28 +148,6 @@
 <footer class="app-footer">
   <p>Fan-made demo project, not affiliated with or endorsed by FIFA. Data shown is illustrative.</p>
 </footer>
-
-<div class="dialog-backdrop" id="settings-backdrop" hidden></div>
-<div class="dialog" id="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
-  <h2 id="settings-title">Settings</h2>
-  <p class="dialog-help">Your API key is stored only in this browser (localStorage) and sent only to the provider you choose below. It is never written to this site's code or sent to any server we control.</p>
-
-  <label for="provider-select">AI provider</label>
-  <select id="provider-select">
-    <option value="gemini">Google Gemini (has a free tier)</option>
-    <option value="openai">OpenAI-compatible</option>
-  </select>
-
-  <label for="api-key-input">Your API key</label>
-  <input id="api-key-input" type="password" autocomplete="off" placeholder="Paste your key here">
-
-  <div class="dialog-actions">
-    <button class="btn btn-secondary" id="clear-key-btn">Remove key</button>
-    <button class="btn btn-primary" id="save-key-btn">Save</button>
-    <button class="btn btn-ghost" id="close-settings-btn">Close</button>
-  </div>
-  <p class="dialog-note">Need a key? See the README section "Add your API key" for a 2-minute walkthrough.</p>
-</div>
 
 <div id="sr-status" class="visually-hidden" role="status" aria-live="polite"></div>
 
