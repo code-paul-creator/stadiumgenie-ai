@@ -5,7 +5,7 @@
 </p>
 
 <p>
-  <img alt="Deploy status" src="https://img.shields.io/github/actions/workflow/status/YOUR-USERNAME/YOUR-REPO/deploy.yml?branch=main&label=build%20%2B%20deploy&logo=githubactions">
+  <img alt="Deploy status" src="https://img.shields.io/github/actions/workflow/status/code-paul-creator/stadiumgenie-ai/deploy.yml?branch=main&label=build%20%2B%20deploy&logo=githubactions">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
   <img alt="Size" src="https://img.shields.io/badge/size-%3C1MB-brightgreen">
   <img alt="No framework" src="https://img.shields.io/badge/stack-vanilla%20HTML%2FCSS%2FJS-orange">
@@ -14,7 +14,7 @@
 
 A GenAI-powered assistant for fans, organizers, volunteers, and venue staff — built to run entirely as a **free static site on GitHub Pages**, deployed by a **single GitHub Actions workflow**.
 
-**[▶ Live demo](https://YOUR-USERNAME.github.io/YOUR-REPO/)** — replace this link after your first deploy (see below).
+**[▶ Live demo](https://code-paul-creator.github.io/stadiumgenie-ai/)** — replace this link after your first deploy (see below).
 
 > Fan-made demo project. Not affiliated with or endorsed by FIFA.
 
