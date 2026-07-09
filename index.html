@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stadium Companion — FIFA World Cup 2026</title>
+<meta name="description" content="A GenAI-powered assistant for navigation, crowd management, accessibility, transport, and sustainability at FIFA World Cup 2026 stadiums." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://generativelanguage.googleapis.com https://api.openai.com; img-src 'self' data:; script-src 'self';">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="app-header">
+  <div class="scoreboard" role="banner">
+    <div class="scoreboard-brand">
+      <span class="scoreboard-badge" aria-hidden="true">2026</span>
+      <div>
+        <p class="scoreboard-title" id="app-title">Stadium Companion</p>
+        <p class="scoreboard-tagline" id="app-tagline">Your AI guide for FIFA World Cup 2026</p>
+      </div>
+    </div>
+    <div class="scoreboard-controls">
+      <label class="visually-hidden" for="lang-select">Language</label>
+      <select id="lang-select" class="lang-select" aria-label="Choose language"></select>
+      <button id="settings-btn" class="btn btn-ghost" aria-haspopup="dialog" aria-controls="settings-dialog">
+        <span aria-hidden="true">⚙</span> <span id="settings-label">Settings</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="gate-nav" aria-label="Main sections">
+    <ul class="gate-tablist" role="tablist" id="tablist">
+      <li role="presentation"><button role="tab" aria-selected="true" aria-controls="panel-home" id="tab-home" class="gate-tab" data-panel="home"><span class="gate-num">01</span><span id="label-home">Overview</span></button></li>
+      <li role="presentation"><button role="tab" aria-selected="false" aria-controls="panel-navigate" id="tab-navigate" class="gate-tab" data-panel="navigate"><span class="gate-num">02</span><span id="label-navigate">Navigate</span></button></li>
+      <li role="presentation"><button role="tab" aria-selected="false" aria-controls="panel-crowd" id="tab-crowd" class="gate-tab" data-panel="crowd"><span class="gate-num">03</span><span id="label-crowd">Crowd Watch</span></button></li>
+      <li role="presentation"><button role="tab" aria-selected="false" aria-controls="panel-access" id="tab-access" class="gate-tab" data-panel="access"><span class="gate-num">04</span><span id="label-access">Accessibility</span></button></li>
+      <li role="presentation"><button role="tab" aria-selected="false" aria-controls="panel-transport" id="tab-transport" class="gate-tab" data-panel="transport"><span class="gate-num">05</span><span id="label-transport">Transport</span></button></li>
+      <li role="presentation"><button role="tab" aria-selected="false" aria-controls="panel-sustain" id="tab-sustain" class="gate-tab" data-panel="sustain"><span class="gate-num">06</span><span id="label-sustain">Sustainability</span></button></li>
+      <li role="presentation"><button role="tab" aria-selected="false" aria-controls="panel-assistant" id="tab-assistant" class="gate-tab" data-panel="assistant"><span class="gate-num">07</span><span id="label-assistant">Ask Anything</span></button></li>
+      <li role="presentation"><button role="tab" aria-selected="false" aria-controls="panel-ops" id="tab-ops" class="gate-tab" data-panel="ops"><span class="gate-num">08</span><span id="label-ops">Ops Console</span></button></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main-content">
+
+  <div class="stadium-picker">
+    <label for="stadium-select">Stadium</label>
+    <select id="stadium-select" aria-label="Choose stadium"></select>
+  </div>
+
+  <section id="panel-home" role="tabpanel" aria-labelledby="tab-home" tabindex="0" class="panel">
+    <h1>Stadium Companion</h1>
+    <p class="lede">One AI-powered assistant covering navigation, crowd safety, accessibility, transport, and sustainability for every FIFA World Cup 2026 venue.</p>
+    <div class="card-grid" id="home-stadium-card"></div>
+    <div class="banner-noapi" id="no-key-banner" hidden>
+      <p><strong id="no-key-title">Add an API key to enable AI answers</strong></p>
+      <p id="no-key-body">Static data works without a key. Add your own free API key in Settings to unlock AI answers.</p>
+      <button class="btn btn-primary" id="no-key-cta">Open Settings</button>
+    </div>
+  </section>
+
+  <section id="panel-navigate" role="tabpanel" aria-labelledby="tab-navigate" tabindex="0" class="panel" hidden>
+    <h2>Navigate</h2>
+    <p class="lede">Get a plain-language walking guide between any two points in the stadium.</p>
+    <form id="nav-form" class="form-row">
+      <div>
+        <label for="nav-from">Starting gate</label>
+        <select id="nav-from"></select>
+      </div>
+      <div>
+        <label for="nav-to">Where are you headed?</label>
+        <input id="nav-to" type="text" placeholder="e.g. Section 112, Guest Services, Family Restroom" required>
+      </div>
+      <button class="btn btn-primary" type="submit">Get route</button>
+    </form>
+    <div class="result-box" id="nav-result" aria-live="polite"></div>
+  </section>
+
+  <section id="panel-crowd" role="tabpanel" aria-labelledby="tab-crowd" tabindex="0" class="panel" hidden>
+    <h2>Crowd Watch</h2>
+    <p class="lede">Live-style occupancy across gates and concourses (demo data), ranked by congestion.</p>
+    <ul class="zone-list" id="zone-list"></ul>
+    <button class="btn btn-secondary" id="ops-summary-btn">Generate AI situation summary</button>
+    <div class="result-box" id="crowd-result" aria-live="polite"></div>
+  </section>
+
+  <section id="panel-access" role="tabpanel" aria-labelledby="tab-access" tabindex="0" class="panel" hidden>
+    <h2>Accessibility</h2>
+    <p class="lede">Standard accessibility features at every venue, plus a concierge for specific questions.</p>
+    <ul class="feature-list" id="access-feature-list"></ul>
+    <form id="access-form" class="form-row">
+      <div class="grow">
+        <label for="access-question">Ask an accessibility question</label>
+        <input id="access-question" type="text" placeholder="e.g. Quietest route to Section 112 for a wheelchair user?" required>
+      </div>
+      <button class="btn btn-primary" type="submit">Ask</button>
+    </form>
+    <div class="result-box" id="access-result" aria-live="polite"></div>
+  </section>
+
+  <section id="panel-transport" role="tabpanel" aria-labelledby="tab-transport" tabindex="0" class="panel" hidden>
+    <h2>Transport</h2>
+    <p class="lede">Transit options for the selected stadium.</p>
+    <ul class="feature-list" id="transport-list"></ul>
+  </section>
+
+  <section id="panel-sustain" role="tabpanel" aria-labelledby="tab-sustain" tabindex="0" class="panel" hidden>
+    <h2>Sustainability</h2>
+    <p class="lede">Estimate the emissions you save by choosing shared or low-carbon transport.</p>
+    <form id="sustain-form" class="form-row">
+      <div>
+        <label for="sustain-distance">Distance to stadium (km)</label>
+        <input id="sustain-distance" type="number" min="0" step="0.1" value="12" required>
+      </div>
+      <div>
+        <label for="sustain-mode">Your transport mode</label>
+        <select id="sustain-mode">
+          <option value="rideshare_pooled">Pooled rideshare</option>
+          <option value="bus">Bus</option>
+          <option value="rail">Rail / Metro</option>
+          <option value="bike">Bike</option>
+          <option value="walk">Walk</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit">Estimate</button>
+    </form>
+    <div class="result-box" id="sustain-result" aria-live="polite"></div>
+  </section>
+
+  <section id="panel-assistant" role="tabpanel" aria-labelledby="tab-assistant" tabindex="0" class="panel" hidden>
+    <h2>Ask Anything</h2>
+    <p class="lede">A general assistant for fan questions — food, rules, schedules, weather, and more.</p>
+    <div class="chat-window" id="chat-window" aria-live="polite"></div>
+    <form id="chat-form" class="form-row">
+      <label class="visually-hidden" for="chat-input">Your question</label>
+      <input id="chat-input" type="text" placeholder="Ask about gates, seats, food, transit..." required>
+      <button class="btn btn-primary" type="submit" id="chat-send">Send</button>
+    </form>
+  </section>
+
+  <section id="panel-ops" role="tabpanel" aria-labelledby="tab-ops" tabindex="0" class="panel" hidden>
+    <h2>Ops Console</h2>
+    <p class="lede">For organizers and volunteers: a quick, shareable operational digest.</p>
+    <button class="btn btn-primary" id="ops-digest-btn">Generate shift digest</button>
+    <div class="result-box" id="ops-result" aria-live="polite"></div>
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  <p>Fan-made demo project, not affiliated with or endorsed by FIFA. Data shown is illustrative.</p>
+</footer>
+
+<div class="dialog-backdrop" id="settings-backdrop" hidden></div>
+<div class="dialog" id="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+  <h2 id="settings-title">Settings</h2>
+  <p class="dialog-help">Your API key is stored only in this browser (localStorage) and sent only to the provider you choose below. It is never written to this site's code or sent to any server we control.</p>
+
+  <label for="provider-select">AI provider</label>
+  <select id="provider-select">
+    <option value="gemini">Google Gemini (has a free tier)</option>
+    <option value="openai">OpenAI-compatible</option>
+  </select>
+
+  <label for="api-key-input">Your API key</label>
+  <input id="api-key-input" type="password" autocomplete="off" placeholder="Paste your key here">
+
+  <div class="dialog-actions">
+    <button class="btn btn-secondary" id="clear-key-btn">Remove key</button>
+    <button class="btn btn-primary" id="save-key-btn">Save</button>
+    <button class="btn btn-ghost" id="close-settings-btn">Close</button>
+  </div>
+  <p class="dialog-note">Need a key? See the README section "Add your API key" for a 2-minute walkthrough.</p>
+</div>
+
+<div id="sr-status" class="visually-hidden" role="status" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/crowd.js"></script>
+<script src="js/accessibility.js"></script>
+<script src="js/sustainability.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

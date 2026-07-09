@@ -1,0 +1,13 @@
+{
+  "updated": "static-demo-feed",
+  "zones": [
+    { "id": "gate-a", "label": "Gate A / Concourse North", "capacity": 5000, "current": 4200, "trend": "rising" },
+    { "id": "gate-b", "label": "Gate B / Concourse East", "capacity": 5000, "current": 1800, "trend": "steady" },
+    { "id": "gate-c", "label": "Gate C / Concourse South", "capacity": 5000, "current": 4850, "trend": "rising" },
+    { "id": "gate-d", "label": "Gate D / Concourse West", "capacity": 5000, "current": 2600, "trend": "falling" },
+    { "id": "concessions-1", "label": "Concessions Row 1", "capacity": 2000, "current": 1950, "trend": "rising" },
+    { "id": "concessions-2", "label": "Concessions Row 2", "capacity": 2000, "current": 700, "trend": "steady" },
+    { "id": "transit-hub", "label": "Transit Hub / Rideshare Zone", "capacity": 3000, "current": 2400, "trend": "rising" },
+    { "id": "accessible-entry", "label": "Accessible Entry / Gate F", "capacity": 800, "current": 210, "trend": "steady" }
+  ]
+}

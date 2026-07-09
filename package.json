@@ -1,0 +1,24 @@
+{
+  "name": "stadium-companion-worldcup2026",
+  "version": "1.0.0",
+  "description": "GenAI-enabled stadium companion for FIFA World Cup 2026 - navigation, crowd management, accessibility, transport, sustainability, multilingual assistance, and operational intelligence.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --coverage",
+    "lint": "eslint js/ tests/",
+    "lint:fix": "eslint js/ tests/ --fix",
+    "serve": "npx http-server . -p 8080 -c-1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "js/utils.js",
+      "js/i18n.js"
+    ]
+  }
+}

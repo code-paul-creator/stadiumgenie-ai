@@ -1,0 +1,54 @@
+{
+  "stadiums": [
+    {
+      "id": "metlife",
+      "name": "MetLife Stadium",
+      "city": "New York/New Jersey",
+      "country": "USA",
+      "capacity": 82500,
+      "gates": ["A", "B", "C", "D", "E", "F"],
+      "transitOptions": ["NJ Transit Rail", "Shuttle Bus", "Rideshare Zone"],
+      "sustainabilityScore": 78
+    },
+    {
+      "id": "azteca",
+      "name": "Estadio Azteca",
+      "city": "Mexico City",
+      "country": "Mexico",
+      "capacity": 87000,
+      "gates": ["1", "2", "3", "4", "5", "6", "7", "8"],
+      "transitOptions": ["Metro Line 2", "Metrobus", "Shuttle Bus"],
+      "sustainabilityScore": 71
+    },
+    {
+      "id": "bc-place",
+      "name": "BC Place",
+      "city": "Vancouver",
+      "country": "Canada",
+      "capacity": 54500,
+      "gates": ["North", "South", "East", "West"],
+      "transitOptions": ["SkyTrain", "SeaBus", "Bike Valet"],
+      "sustainabilityScore": 85
+    },
+    {
+      "id": "att-stadium",
+      "name": "AT&T Stadium",
+      "city": "Arlington",
+      "country": "USA",
+      "capacity": 92967,
+      "gates": ["A", "B", "C", "D", "E", "F", "G", "H"],
+      "transitOptions": ["Shuttle Bus", "Rideshare Zone", "Parking Lots 1-14"],
+      "sustainabilityScore": 74
+    }
+  ],
+  "languages": [
+    { "code": "en", "label": "English" },
+    { "code": "es", "label": "Español" },
+    { "code": "fr", "label": "Français" },
+    { "code": "pt", "label": "Português" },
+    { "code": "ar", "label": "العربية" },
+    { "code": "de", "label": "Deutsch" },
+    { "code": "ja", "label": "日本語" },
+    { "code": "hi", "label": "हिन्दी" }
+  ]
+}

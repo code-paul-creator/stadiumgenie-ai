@@ -1,0 +1,182 @@
+/* =========================================================
+   Design tokens
+   Palette grounded in matchday materials: night-lit pitch,
+   floodlights, and scoreboard gold rather than generic
+   "soccer green" clichés.
+   ========================================================= */
+:root {
+  --night-navy: #0e1420;
+  --pitch-dark: #0b2e23;
+  --turf-mid: #1e5c43;
+  --floodlight: #f4f6f0;
+  --trophy-gold: #ffb81c;
+  --var-red: #e1483b;
+  --line-soft: rgba(244, 246, 240, 0.14);
+  --text-on-dark: #f4f6f0;
+  --text-muted-on-dark: rgba(244, 246, 240, 0.68);
+  --text-body: #1b241f;
+  --text-muted: #5b665f;
+  --surface: #ffffff;
+  --surface-alt: #eef2ec;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --focus-ring: 3px solid var(--trophy-gold);
+}
+
+* { box-sizing: border-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+html, body {
+  margin: 0;
+  background: var(--surface-alt);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: 0.01em; text-transform: uppercase; }
+h1 { font-size: 2.1rem; margin: 0 0 0.4rem; }
+h2 { font-size: 1.5rem; margin: 0 0 0.4rem; }
+
+.lede { color: var(--text-muted); max-width: 60ch; margin-bottom: 1.25rem; }
+
+.skip-link {
+  position: absolute; left: -999px; top: 0; background: var(--trophy-gold);
+  color: var(--night-navy); padding: 0.6rem 1rem; z-index: 100; font-weight: 700;
+}
+.skip-link:focus { left: 1rem; top: 1rem; }
+
+:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* ---------- Header / Scoreboard ---------- */
+.app-header { background: var(--night-navy); color: var(--text-on-dark); }
+
+.scoreboard {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--line-soft);
+}
+.scoreboard-brand { display: flex; align-items: center; gap: 0.75rem; }
+.scoreboard-badge {
+  font-family: var(--font-mono); background: var(--trophy-gold); color: var(--night-navy);
+  font-weight: 700; padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.85rem;
+}
+.scoreboard-title { font-family: var(--font-display); font-size: 1.35rem; margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
+.scoreboard-tagline { margin: 0; font-size: 0.85rem; color: var(--text-muted-on-dark); }
+.scoreboard-controls { display: flex; align-items: center; gap: 0.6rem; }
+
+.lang-select {
+  background: transparent; color: var(--text-on-dark); border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm); padding: 0.4rem 0.5rem; font-family: var(--font-body);
+}
+.lang-select option { color: #000; }
+
+/* ---------- Gate-style nav (mirrors real stadium gate signage) ---------- */
+.gate-nav { overflow-x: auto; }
+.gate-tablist {
+  list-style: none; display: flex; margin: 0; padding: 0 1.25rem; gap: 0.25rem;
+}
+.gate-tab {
+  font-family: var(--font-mono); background: transparent; border: none; color: var(--text-muted-on-dark);
+  padding: 0.75rem 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+  border-bottom: 3px solid transparent; white-space: nowrap; font-size: 0.92rem;
+}
+.gate-tab:hover { color: var(--text-on-dark); }
+.gate-tab[aria-selected="true"] {
+  color: var(--trophy-gold); border-bottom-color: var(--trophy-gold); font-weight: 600;
+}
+.gate-num { opacity: 0.7; font-size: 0.8rem; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  font-family: var(--font-body); font-weight: 600; border-radius: var(--radius-sm);
+  padding: 0.6rem 1rem; border: 1px solid transparent; cursor: pointer; font-size: 0.95rem;
+}
+.btn-primary { background: var(--pitch-dark); color: var(--text-on-dark); }
+.btn-primary:hover { background: var(--turf-mid); }
+.btn-secondary { background: var(--surface); border-color: var(--turf-mid); color: var(--pitch-dark); }
+.btn-ghost { background: transparent; color: var(--text-on-dark); border-color: var(--line-soft); }
+
+/* ---------- Layout ---------- */
+main { max-width: 980px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+.stadium-picker { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.25rem; }
+.stadium-picker select { padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid #c9d2c8; }
+
+.panel:focus { outline: none; }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.9rem; margin: 1rem 0; }
+.card {
+  background: var(--surface); border: 1px solid #dde4da; border-radius: var(--radius-md);
+  padding: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.card h3 { margin-top: 0; font-size: 1rem; }
+.card .stat { font-family: var(--font-mono); font-size: 1.6rem; color: var(--pitch-dark); }
+
+.banner-noapi {
+  background: #fff7e6; border: 1px solid var(--trophy-gold); border-radius: var(--radius-md);
+  padding: 1rem 1.25rem; margin-top: 1rem;
+}
+
+.form-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: end; margin-bottom: 1rem; }
+.form-row > div, .form-row .grow { display: flex; flex-direction: column; gap: 0.3rem; flex: 1 1 200px; }
+.form-row label { font-size: 0.85rem; font-weight: 600; }
+.form-row input, .form-row select {
+  padding: 0.55rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid #c9d2c8; font-family: var(--font-body);
+}
+
+.result-box {
+  background: var(--surface); border-left: 4px solid var(--turf-mid); border-radius: var(--radius-sm);
+  padding: 1rem; white-space: pre-wrap; min-height: 1.5rem; font-size: 0.95rem;
+}
+.result-box:empty { display: none; }
+.result-box.error { border-left-color: var(--var-red); }
+
+.zone-list, .feature-list { list-style: none; padding: 0; margin: 0 0 1rem; display: grid; gap: 0.6rem; }
+.zone-list li, .feature-list li {
+  background: var(--surface); border-radius: var(--radius-sm); padding: 0.7rem 0.9rem;
+  display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; border: 1px solid #dde4da;
+}
+.zone-bar { flex: 1; height: 8px; background: #e3e9e0; border-radius: 4px; margin: 0 0.75rem; overflow: hidden; }
+.zone-bar > span { display: block; height: 100%; }
+.level-low > span { background: #2f9e58; }
+.level-moderate > span { background: var(--trophy-gold); }
+.level-high > span { background: #e08a2c; }
+.level-critical > span { background: var(--var-red); }
+.zone-pct { font-family: var(--font-mono); font-weight: 600; min-width: 3.2rem; text-align: right; }
+
+.chat-window { background: var(--surface); border-radius: var(--radius-md); border: 1px solid #dde4da; padding: 1rem; min-height: 200px; max-height: 380px; overflow-y: auto; margin-bottom: 0.75rem; }
+.chat-msg { margin-bottom: 0.75rem; max-width: 80%; padding: 0.6rem 0.8rem; border-radius: var(--radius-md); }
+.chat-msg.user { background: var(--pitch-dark); color: var(--text-on-dark); margin-left: auto; }
+.chat-msg.ai { background: var(--surface-alt); }
+.chat-msg.system { background: #fff7e6; border: 1px solid var(--trophy-gold); font-size: 0.9rem; }
+
+.app-footer { text-align: center; padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem; }
+
+/* ---------- Settings dialog ---------- */
+.dialog-backdrop { position: fixed; inset: 0; background: rgba(14,20,32,0.6); z-index: 40; }
+.dialog {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: var(--surface); padding: 1.5rem; border-radius: var(--radius-md);
+  width: min(420px, 90vw); z-index: 41; display: flex; flex-direction: column; gap: 0.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.dialog label { font-weight: 600; font-size: 0.85rem; margin-top: 0.5rem; }
+.dialog select, .dialog input { padding: 0.55rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid #c9d2c8; }
+.dialog-help, .dialog-note { font-size: 0.82rem; color: var(--text-muted); }
+.dialog-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.75rem; flex-wrap: wrap; }
+
+@media (max-width: 640px) {
+  .scoreboard { flex-direction: column; align-items: flex-start; }
+  .dialog-actions { justify-content: stretch; }
+  .dialog-actions .btn { flex: 1; }
+}
