@@ -14,7 +14,7 @@
 
 A GenAI-powered assistant for fans, organizers, volunteers, and venue staff — built to run entirely as a **free static site on GitHub Pages**, deployed by a **single GitHub Actions workflow**.
 
-**[▶ Click here for Live demo](https://code-paul-creator.github.io/stadiumgenie-ai/)**
+**[▶ Live demo](https://code-paul-creator.github.io/stadiumgenie-ai/)**
 
 > Fan-made demo project. Not affiliated with or endorsed by FIFA.
 
@@ -112,11 +112,8 @@ Generates a shareable operational summary combining crowd data into a handoff-re
 | ![Transport](docs/readme-assets/screenshots/05_transport.png) | ![Sustainability](docs/readme-assets/screenshots/06_sustainability.png) |
 | **Ask Anything** — general fan chat assistant | **Ops Console** — volunteer/organizer digest |
 | ![Ask Anything](docs/readme-assets/screenshots/07_ask_anything.png) | ![Ops Console](docs/readme-assets/screenshots/08_ops_console.png) |
-| **Settings** — bring your own API key | **العربية (RTL)** — full right-to-left layout |
-| ![Settings](docs/readme-assets/screenshots/09_settings_dialog.png) | ![Arabic RTL](docs/readme-assets/screenshots/10_arabic_rtl.png) |
-
-<p align="center"><img src="docs/readme-assets/screenshots/11_mobile_view.png" alt="Mobile view" width="280"></p>
-<p align="center"><em>390px mobile viewport — header and gate nav collapse gracefully</em></p>
+| **العربية (RTL)** — full right-to-left layout | **Mobile** — 390px viewport |
+| ![Arabic RTL](docs/readme-assets/screenshots/10_arabic_rtl.png) | ![Mobile view](docs/readme-assets/screenshots/11_mobile_view.png) |
 
 </details>
 
@@ -155,86 +152,7 @@ flowchart LR
 
 No server, no database, no backend proxy — the browser talks directly to the AI provider's official API. That's what makes free GitHub Pages hosting possible.
 
-## Quick start — deploy your own copy in 3 steps
-
-<details>
-<summary><strong>⚠️ Coming from an Express-based scaffold? (has <code>server.js</code>, <code>public/</code>, <code>.env.example</code>) — read this first</strong></summary>
-<br>
-
-If your repo currently looks like this:
-
-```
-server.js
-public/
-.env.example
-package.json
-```
-
-**this will never deploy on GitHub Pages**, no matter what secret you add — Pages only serves static files and cannot run a Node/Express process or read a `.env` file. That architecture needs a real server host (Render, Railway, Fly.io), not Pages.
-
-To fix it, replace those files with this project's static files:
-
-```bash
-# from the root of your repo
-git rm -r server.js public .env.example
-git checkout <this-project's-files>   # or just copy them in via your file explorer
-git add .
-git commit -m "Switch to static, Pages-compatible architecture"
-git push
-```
-
-Then continue with the 3 steps below — no server, no `.env`, just Pages + Actions.
-
-</details>
-
-
-
-1. **Fork or use this template**, then in your new repo go to **Settings → Pages** and set **Source: GitHub Actions**.
-2. **Push to `main`** (or click **Actions → Test and Deploy to GitHub Pages → Run workflow**). The included workflow lints, tests, audits accessibility, then builds and deploys automatically.
-3. **Open your site** at `https://YOUR-USERNAME.github.io/YOUR-REPO/`, click **⚙ Settings** in the app, and add your own AI API key (next section) — or just explore the static features without one.
-
-That's it — no server to manage, no separate build tooling to install.
-
-## Add your API key
-
-The app calls the AI provider directly from your browser, so **each visitor supplies their own key**. This keeps the project free to run, keeps you in control of your own usage/spend, and means no secret ever needs to live in this repository for normal use.
-
-### Recommended: personal key (2 minutes, no repo changes needed)
-
-1. Get a free key:
-   - **Google Gemini** (recommended, generous free tier): [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
-   - **OpenAI-compatible**: [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
-2. Open the deployed site → click **⚙ Settings** (top right).
-3. Choose your provider, paste the key, click **Save**.
-
-The key is written only to your browser's `localStorage` and sent only to the provider's official endpoint — see [Security model](#security-model). Nothing is written back to this repo or any server.
-
-<details>
-<summary><strong>Optional: shared demo key (advanced, for your own fork only)</strong></summary>
-<br>
-
-If you want *every* visitor of your deployed site to get AI answers without entering a key, you can inject one at build time via a GitHub Actions secret:
-
-1. Get a **Gemini** API key, then in [Google Cloud Console](https://console.cloud.google.com/apis/credentials) restrict it by **HTTP referrer** to `https://YOUR-USERNAME.github.io/*` and set a low daily quota.
-2. In your repo, go to **Settings → Secrets and variables → Actions → New repository secret**.
-3. Name it `GEMINI_API_KEY`, paste the restricted key, save.
-4. Re-run the deploy workflow. `js/config.js` will have the key substituted in at build time.
-
-⚠️ **This key will be visible** to anyone who views your deployed site's source or network requests — that is unavoidable for a static site. Only do this with a referrer-restricted key and a strict quota. This is why it's off by default.
-</details>
-
-## Run it locally
-
-No build step or bundler is required — it's plain HTML/CSS/JS.
-
-```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPO.git
-cd YOUR-REPO
-npm install        # dev dependencies only: eslint + jest
-npm run serve       # serves the site at http://localhost:8080
-```
-
-Then open `http://localhost:8080` and add your API key in Settings as above.
+---
 
 ## Testing & code quality
 
@@ -261,8 +179,8 @@ The included tests cover:
 
 ## Security model
 
-- **No secrets are committed.** `js/config.js` never contains a real key — only non-secret defaults and, optionally, a build-time substitution point for a referrer-restricted demo key.
-- **Personal keys live only in the visitor's browser** (`localStorage`), never sent anywhere except the AI provider's own HTTPS endpoint.
+- **No secret is committed to the repo.** `js/config.js` only holds a placeholder (`__DEMO_API_KEY__`) that the deploy workflow substitutes at build time, straight from the `GEMINI_API_KEY` Actions secret — the raw key is never written into version control.
+- **The key still ends up in the deployed static files**, because that's unavoidable for a client-side call from a Pages site. The mitigation is a **referrer-restricted, quota-limited key** (see [Add your API key](#add-your-api-key)) — restrict it to your `github.io` domain so it's useless if copied elsewhere.
 - A `Content-Security-Policy` meta tag restricts network requests to the site's own origin plus the two supported AI provider endpoints.
 - User-supplied text is length-clamped before being sent to the AI, and any AI/user text rendered as HTML is escaped (`js/utils.js#sanitizeForDisplay`).
 - Dependencies are dev-only (`eslint`, `jest`) — the shipped site has **zero runtime dependencies**.
@@ -297,8 +215,8 @@ The included tests cover:
 
 | Symptom | Fix |
 |---|---|
-| "No API key configured yet" | Open ⚙ Settings and paste a key, or keep using the static features |
-| Provider error / 4xx in the result box | Double check the key and provider match in Settings |
+| "No API key configured yet" shows in the AI panels | Add the `GEMINI_API_KEY` repo secret (see [Add your API key](#add-your-api-key)) and re-run the deploy workflow |
+| Provider error / 4xx in the result box | Check the key is valid and its referrer restriction includes your exact `github.io` URL |
 | Pages shows a 404 | Confirm **Settings → Pages → Source** is set to **GitHub Actions**, and that the workflow finished successfully under the **Actions** tab |
 | Workflow fails on the accessibility audit step | Click into the failed step's log — `pa11y` prints the exact element and WCAG rule that failed |
 
