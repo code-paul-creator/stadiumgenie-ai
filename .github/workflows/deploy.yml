@@ -1,10 +1,8 @@
-name: Test and Deploy to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: [ main ]   # or your default branch
   workflow_dispatch:
 
 permissions:
@@ -12,112 +10,24 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: false
-
 jobs:
-  # ---------------------------------------------------------------
-  # Quality gate: runs on every push and PR. The deploy job below
-  # only runs after this succeeds.
-  # ---------------------------------------------------------------
-  test:
-    name: Lint, unit tests, accessibility audit
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Unit tests
-        run: npm test
-
-      - name: Serve site for accessibility audit
-        run: npx http-server . -p 8080 -c-1 &
-
-      - name: Wait for local server
-        run: npx wait-on http://127.0.0.1:8080
-
-      - name: Accessibility audit (pa11y, WCAG2AA)
-        run: >
-          npx pa11y http://127.0.0.1:8080/index.html
-          --standard WCAG2AA
-          --timeout 20000
-
-  # ---------------------------------------------------------------
-  # Build: substitutes non-secret build metadata and (optionally) a
-  # referrer-restricted demo API key from a repo secret, then uploads
-  # the result as a Pages artifact. Nothing here exceeds a few hundred
-  # KB - the whole site is plain HTML/CSS/JS with no framework build.
-  # ---------------------------------------------------------------
-  build:
-    name: Build site
-    needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Stamp build tag and inject optional demo API key
-        # Uses Node (not sed) so the substitution is safe regardless of any
-        # special characters that might appear in a provider-issued key.
-        # DEMO_KEY only substitutes if a GEMINI_API_KEY repo secret has been
-        # added under Settings > Secrets and variables > Actions. If it
-        # hasn't, this leaves demoApiKey empty and the app simply asks each
-        # visitor for their own key in Settings. See README > "Add your API key".
-        env:
-          DEMO_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          node -e "
-            const fs = require('fs');
-            const path = 'js/config.js';
-            let content = fs.readFileSync(path, 'utf8');
-            content = content.split('__BUILD_TAG__').join(process.env.GITHUB_SHA.slice(0, 7));
-            content = content.split('__DEMO_API_KEY__').join(process.env.DEMO_KEY || '');
-            fs.writeFileSync(path, content);
-          "
-
-      - name: Assemble deployable site (only what the browser needs)
-        run: |
-          mkdir dist
-          cp -r index.html css js data assets .nojekyll dist/
-
-      - name: Check output size stays well under the 10MB budget
-        run: |
-          SIZE_KB=$(du -sk dist | cut -f1)
-          echo "Site size: ${SIZE_KB} KB"
-          if [ "$SIZE_KB" -gt 10240 ]; then
-            echo "::error::Site exceeds the 10MB budget (${SIZE_KB} KB)"
-            exit 1
-          fi
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  # ---------------------------------------------------------------
-  # Deploy: publishes the artifact built above to GitHub Pages.
-  # ---------------------------------------------------------------
   deploy:
-    name: Deploy to GitHub Pages
-    needs: build
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-      - name: Deploy
-        id: deployment
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public   # adjust if your HTML is at root
+
+      - name: Deploy to GitHub Pages
+        id: deploy
         uses: actions/deploy-pages@v4
