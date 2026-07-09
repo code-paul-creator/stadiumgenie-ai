@@ -14,7 +14,7 @@
 
 A GenAI-powered assistant for fans, organizers, volunteers, and venue staff — built to run entirely as a **free static site on GitHub Pages**, deployed by a **single GitHub Actions workflow**.
 
-**[▶ Live demo](https://code-paul-creator.github.io/stadiumgenie-ai/)** — replace this link after your first deploy (see below).
+**[▶ Click here for Live demo](https://code-paul-creator.github.io/stadiumgenie-ai/)**
 
 > Fan-made demo project. Not affiliated with or endorsed by FIFA.
 
