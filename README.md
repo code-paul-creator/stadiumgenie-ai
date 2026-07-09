@@ -1,9 +1,4 @@
 # 🏟️ Stadium Companion — FIFA World Cup 2026
-
-<p align="center">
-  <img src="docs/readme-assets/football-banner.svg" alt="Stadium Companion — animated banner" width="100%">
-</p>
-
 <p>
   <img alt="Deploy status" src="https://img.shields.io/github/actions/workflow/status/code-paul-creator/stadiumgenie-ai/deploy.yml?branch=main&label=build%20%2B%20deploy&logo=githubactions">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
