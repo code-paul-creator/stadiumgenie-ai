@@ -53,6 +53,7 @@ jobs:
           npx pa11y http://127.0.0.1:8080/index.html
           --standard WCAG2AA
           --timeout 20000
+          --config .pa11yci.json
 
   # ---------------------------------------------------------------
   # Build: substitutes non-secret build metadata and (optionally) a
