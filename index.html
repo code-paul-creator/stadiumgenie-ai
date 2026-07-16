@@ -27,6 +27,7 @@
     <div class="scoreboard-controls">
       <label class="visually-hidden" for="lang-select">Language</label>
       <select id="lang-select" class="lang-select" aria-label="Choose language"></select>
+      <button type="button" class="btn btn-secondary" id="settings-btn">⚙ <span id="settings-label">Settings</span></button>
     </div>
   </div>
 
@@ -45,6 +46,12 @@
 </header>
 
 <main id="main-content">
+
+  <div class="result-box" id="no-key-banner" hidden>
+    <strong id="no-key-title">Add an API key to enable AI answers</strong>
+    <p id="no-key-body">Static data (maps, crowd levels, transit options) works without a key. Add your own free API key in Settings to unlock AI-generated answers.</p>
+    <button type="button" class="btn btn-secondary" id="no-key-cta">Open Settings</button>
+  </div>
 
   <div class="stadium-picker">
     <label for="stadium-select">Stadium</label>
@@ -150,6 +157,29 @@
 </footer>
 
 <div id="sr-status" class="visually-hidden" role="status" aria-live="polite"></div>
+
+<div class="dialog-backdrop" id="settings-backdrop" hidden></div>
+<div class="dialog" id="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settings-dialog-title" hidden>
+  <h2 id="settings-dialog-title">Settings</h2>
+  <p class="dialog-note">Your API key is stored only in this browser (localStorage) and sent only to the provider you choose below. It is never written to this site's code or sent to any server we control.</p>
+
+  <label for="provider-select">AI provider</label>
+  <select id="provider-select">
+    <option value="gemini">Google Gemini (has a free tier)</option>
+    <option value="openai">OpenAI-compatible</option>
+  </select>
+
+  <label for="api-key-input">Your API key</label>
+  <input id="api-key-input" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your API key">
+
+  <div class="dialog-actions">
+    <button type="button" class="btn btn-secondary" id="clear-key-btn">Remove key</button>
+    <button type="button" class="btn btn-primary" id="save-key-btn">Save</button>
+    <button type="button" class="btn btn-secondary" id="close-settings-btn">Close</button>
+  </div>
+
+  <p class="dialog-help">Need a key? See the README section "Add your API key" for a 2-minute walkthrough.</p>
+</div>
 
 <script src="js/config.js"></script>
 <script src="js/utils.js"></script>
